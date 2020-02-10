@@ -1,3 +1,4 @@
+
 #ifndef GS1_WRITE
 #define GS1_WRITE
 
@@ -35,4 +36,3 @@ gen_write(const dm_type<T>& i, std::ostream& o)
 } // namespace gs1
 
 #endif // #define GS1_WRITE
-
