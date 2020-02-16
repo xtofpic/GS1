@@ -1,6 +1,7 @@
 
 include_directories (
 	${TEST_SOURCE_DIR}
+	${PROJECT_SOURCE_DIR}/include
 )
 
 set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/externals/cmake-codecov/cmake" ${CMAKE_MODULE_PATH})

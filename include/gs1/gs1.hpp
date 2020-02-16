@@ -41,52 +41,73 @@ namespace gs1
 
 struct AiFabLot
 {
-	static constexpr const char* ai = "10";
-	static constexpr const char* validation = "an..20";
+	static constexpr const char *ai = "10";
+	static constexpr const char *validation = "an..20";
 	using data_type = std::string;
-	static data_type parse(const std::string& src) { return src; }
+	static data_type parse(const std::string &src)
+	{
+		return src;
+	}
 };
 
 struct AiGtin
 {
-	static constexpr const char* ai = "00";
-	static constexpr const char* validation = "n18";
+	static constexpr const char *ai = "00";
+	static constexpr const char *validation = "n18";
 	using data_type = std::string;
-	static data_type parse(const std::string& src) { return src; }
+	static data_type parse(const std::string &src)
+	{
+		return src;
+	}
 };
 
 struct AiTest
 {
-	static constexpr const char* ai = "05";
-	static constexpr const char* validation = "n5";
+	static constexpr const char *ai = "05";
+	static constexpr const char *validation = "n5";
 	using data_type = int64_t;
-	static data_type parse(const std::string& src) { return std::atoi(src.c_str()); }
+	static data_type parse(const std::string &src)
+	{
+		return std::atoi(src.c_str());
+	}
 };
 
 struct AiItemComponent
 {
-	static constexpr const char* ai = "8006";
+	static constexpr const char *ai = "8006";
 };
 
 struct AiItemComponentA
 {
-	static constexpr const char* validation = "n14";
+	static constexpr const char *ai = "";
+	static constexpr const char *validation = "n14";
 	using data_type = int64_t;
-	static data_type parse(const std::string& src) { return std::atoi(src.substr(0, 14).c_str()); }
+	static data_type parse(const std::string &src)
+	{
+		return std::atoi(src.substr(0, 14).c_str());
+	}
 };
 
 struct AiItemComponentB
 {
-	static constexpr const char* validation = "n2";
+	static constexpr const char *ai = "";
+	static constexpr const char *validation = "n2";
 	using data_type = int64_t;
-	static data_type parse(const std::string& src) { return std::atoi(src.substr(14, 2).c_str()); }
+	static data_type parse(const std::string &src)
+	{
+		return std::atoi(src.substr(14, 2).c_str());
+	}
 };
 
 struct AiItemComponentC
 {
-	static constexpr const char* validation = "n2";
+	static constexpr const char *ai = "";
+	static constexpr const char *validation = "n2";
 	using data_type = int64_t;
-	static data_type parse(const std::string& src) { return std::atoi(src.substr(16, 2).c_str()); }
+	static data_type parse(const std::string &src)
+	{
+		return std::atoi(src.substr(16, 2).c_str());
+	}
 };
 
 template<class T>
@@ -100,7 +121,9 @@ int16_t extract_length()
 		toReturn = std::atoi(&T::validation[pos]);
 		if (toReturn == 0)
 		{
-			throw std::runtime_error(std::string("extract lenght from ") + T::validation + " failed.");
+			throw std::runtime_error(
+					std::string("extract lenght from ") + T::validation
+							+ " failed.");
 		}
 	}
 	else
@@ -108,15 +131,17 @@ int16_t extract_length()
 		toReturn = -std::atoi(&T::validation[(pos + 2)]);
 		if (toReturn == 0)
 		{
-			throw std::runtime_error(std::string("extract lenght from ") + T::validation + " failed.");
+			throw std::runtime_error(
+					std::string("extract lenght from ") + T::validation
+							+ " failed.");
 		}
 	}
 	return toReturn;
 }
 
 template<class T>
-typename std::enable_if<std::is_same<typename T::data_type, std::string>::value, bool>::type
-dm_check(const std::string& i, bool throwIfBad)
+typename std::enable_if<std::is_same<typename T::data_type, std::string>::value,
+		bool>::type dm_check(const std::string &i, bool throwIfBad)
 {
 	int16_t length = extract_length<T>();
 
@@ -124,7 +149,9 @@ dm_check(const std::string& i, bool throwIfBad)
 	{
 		if (throwIfBad)
 		{
-			throw std::runtime_error(std::string("Data does not fullfill pattern: ") + T::validation);
+			throw std::runtime_error(
+					std::string("Data does not fullfill pattern: ")
+							+ T::validation);
 		}
 		return false;
 	}
@@ -135,7 +162,9 @@ dm_check(const std::string& i, bool throwIfBad)
 		{
 			if (throwIfBad)
 			{
-				throw std::runtime_error(std::string("Data length does not fullfill pattern: ") + T::validation);
+				throw std::runtime_error(
+						std::string("Data length does not fullfill pattern: ")
+								+ T::validation);
 			}
 			return false;
 		}
@@ -146,12 +175,13 @@ dm_check(const std::string& i, bool throwIfBad)
 		{
 			if (throwIfBad)
 			{
-				throw std::runtime_error(std::string("Data length does not fullfill pattern: ") + T::validation);
+				throw std::runtime_error(
+						std::string("Data length does not fullfill pattern: ")
+								+ T::validation);
 			}
 			return false;
 		}
 	}
-
 
 	// If pattern is 'n', assert than all char is 0-9 + '-' with eventually one '.'
 	if (T::validation[0] == 'n')
@@ -170,7 +200,7 @@ dm_check(const std::string& i, bool throwIfBad)
 				}
 			}
 
-			if ( (c == '.') && (foundDot == false))
+			if ((c == '.') && (foundDot == false))
 			{
 				foundDot = true;
 				continue;
@@ -180,7 +210,10 @@ dm_check(const std::string& i, bool throwIfBad)
 			{
 				if (throwIfBad)
 				{
-					throw std::runtime_error(std::string("Data does not fullfill numerical pattern: ") + T::validation);
+					throw std::runtime_error(
+							std::string(
+									"Data does not fullfill numerical pattern: ")
+									+ T::validation);
 				}
 				return false;
 			}
@@ -190,8 +223,8 @@ dm_check(const std::string& i, bool throwIfBad)
 }
 
 template<class T>
-typename std::enable_if<std::is_same<typename T::data_type, int64_t>::value, bool>::type
-dm_check(const int64_t& i, bool throwIfBad)
+typename std::enable_if<std::is_same<typename T::data_type, int64_t>::value,
+		bool>::type dm_check(const int64_t &i, bool throwIfBad)
 {
 	if (extract_length<T>() != 0)
 	{
@@ -200,25 +233,26 @@ dm_check(const int64_t& i, bool throwIfBad)
 		{
 			if (throwIfBad)
 			{
-				throw std::runtime_error(std::string("Data does not fullfill pattern: ") + T::validation);
+				throw std::runtime_error(
+						std::string("Data does not fullfill pattern: ")
+								+ T::validation);
 			}
 			return false;
 		}
 	}
-        return true;
+	return true;
 }
 
 template<typename ReturnType>
-typename std::enable_if<!std::is_arithmetic<ReturnType>::value, ReturnType>::type
-empty_init()
+typename std::enable_if<!std::is_arithmetic<ReturnType>::value, ReturnType>::type empty_init()
 {
 	ReturnType rt;
 	return rt;
-};
+}
+;
 
 template<typename ReturnType>
-typename std::enable_if<std::is_arithmetic<ReturnType>::value, ReturnType>::type
-empty_init()
+typename std::enable_if<std::is_arithmetic<ReturnType>::value, ReturnType>::type empty_init()
 {
 	return 0;
 }
@@ -229,22 +263,53 @@ class dm_type
 public:
 	using data_type = typename Ai::data_type;
 
-	dm_type(const data_type& d) { dm_check<Ai>(d, true); data_ = d; defined_ = true; }
-	dm_type() { data_ = empty_init<typename Ai::data_type>(); }
+	dm_type(const data_type &d)
+	{
+		dm_check<Ai>(d, true);
+		data_ = d;
+		defined_ = true;
+	}
+	dm_type()
+	{
+		data_ = empty_init<typename Ai::data_type>();
+	}
 
-	static constexpr const char* ai = Ai::ai;
-	static constexpr const char* validation = Ai::validation;
+	static constexpr const char *ai = Ai::ai;
+	static constexpr const char *validation = Ai::validation;
 
-	dm_type& operator=(const data_type& d) { dm_check<Ai>(d, true); data_ = d; defined_ = true; }
-	explicit operator data_type() const { return data_; }
+	dm_type& operator=(const data_type &d)
+	{
+		dm_check<Ai>(d, true);
+		data_ = d;
+		defined_ = true;
+	}
+	explicit operator data_type() const
+	{
+		return data_;
+	}
 
-	bool defined() const { return defined_; }
+	bool defined() const
+	{
+		return defined_;
+	}
 
-	void clear() { defined_ = false; }
+	void clear()
+	{
+		defined_ = false;
+	}
 
-	void parse(const std::string& src) { defined_ = false; data_ = Ai::parse(src); dm_check<Ai>(data_, true); defined_ = true; }
+	void parse(const std::string &src)
+	{
+		defined_ = false;
+		data_ = Ai::parse(src);
+		dm_check<Ai>(data_, true);
+		defined_ = true;
+	}
 
-	static bool isValid(const data_type& d) { return dm_check<Ai>(d, false); }
+	static bool isValid(const data_type &d)
+	{
+		return dm_check<Ai>(d, false);
+	}
 
 	data_type data_;
 	bool defined_ = false;
@@ -254,14 +319,21 @@ template<typename Ai>
 class dm_type_tres
 {
 public:
-	dm_type_tres(const dm_type<AiItemComponentA>& a, const dm_type<AiItemComponentB>& b, const dm_type<AiItemComponentC>& c) : a_(a), b_(b), c_(c) { }
-	dm_type_tres() { }
+	dm_type_tres(const dm_type<AiItemComponentA> &a,
+			const dm_type<AiItemComponentB> &b,
+			const dm_type<AiItemComponentC> &c) :
+			a_(a), b_(b), c_(c)
+	{
+	}
+	dm_type_tres()
+	{
+	}
 
 	dm_type<AiItemComponentA> a_;
 	dm_type<AiItemComponentB> b_;
 	dm_type<AiItemComponentC> c_;
 
-	void parse(const std::string& src)
+	void parse(const std::string &src)
 	{
 		a_.defined_ = false;
 		b_.defined_ = false;
@@ -269,16 +341,24 @@ public:
 		a_.data_ = AiItemComponentA::parse(src);
 		b_.data_ = AiItemComponentB::parse(src);
 		c_.data_ = AiItemComponentC::parse(src);
-	       	dm_check<AiItemComponentA>(a_.data_, true);
-	       	dm_check<AiItemComponentA>(b_.data_, true);
-	       	dm_check<AiItemComponentA>(c_.data_, true);
+		dm_check<AiItemComponentA>(a_.data_, true);
+		dm_check<AiItemComponentA>(b_.data_, true);
+		dm_check<AiItemComponentA>(c_.data_, true);
 		a_.defined_ = true;
 		b_.defined_ = true;
 		c_.defined_ = true;
 	}
 
-	void clear() { a_.clear(); b_.clear(); c_.clear(); }
-	bool defined() const { return (a_.defined() && b_.defined() && c_.defined()); }
+	void clear()
+	{
+		a_.clear();
+		b_.clear();
+		c_.clear();
+	}
+	bool defined() const
+	{
+		return (a_.defined() && b_.defined() && c_.defined());
+	}
 };
 
 using gtin = dm_type<AiGtin>;
@@ -294,9 +374,7 @@ struct code
 	dm_type_tres<AiItemComponent> itemComponent;
 };
 
-
 } // namespace gs1
-
 
 #endif // #define GS1_GS1
 
