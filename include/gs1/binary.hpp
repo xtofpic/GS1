@@ -49,8 +49,8 @@ std::ostream& binary_write(const dm_type<AiItem> &i, std::ostream &o)
 	return o;
 }
 
-template<class AiItem>
-std::ostream& binary_write(const dm_type_tres<AiItem> &i, std::ostream &o)
+template<class AiItem, class AiItemA, class AiItemB, class AiItemC>
+std::ostream& binary_write(const dm_type_tres<AiItem, AiItemA, AiItemB, AiItemC> &i, std::ostream &o)
 {
 	o << AiItem::ai;
 	gen_write(i.a_, o);
@@ -101,22 +101,22 @@ std::ostream& binary_write_code(std::ostream &o, const code &c, char start,
 		binary_write(c.gtin, o);
 		needSep = false;
 	} // If separator needed, tell it.
-	if (c.fablot.defined())
+	if (c.batchLot.defined())
 	{
 		if (needSep)
 		{
 			o << sep;
 		}
-		binary_write(c.fablot, o);
+		binary_write(c.batchLot, o);
 		needSep = true;
 	} // If separator needed, tell it.
-	if (c.itemComponent.defined())
+	if (c.itip.defined())
 	{
 		if (needSep)
 		{
 			o << sep;
 		}
-		binary_write(c.itemComponent, o);
+		binary_write(c.itip, o);
 		needSep = false;
 	} // If separator needed, tell it.
 

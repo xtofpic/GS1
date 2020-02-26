@@ -41,82 +41,82 @@
 
 TEST_CASE("Test of validity with [n18]: fixed length, numeric only (gtin)", "[gtin]")
 {
-	REQUIRE(std::string(gs1::gtin::validation) == "n18");
+	REQUIRE(std::string(gs1::gtin::validation) == "N14");
 
-	REQUIRE_NOTHROW(gs1::gtin("123456789012345678"));	// A good gtin
-	REQUIRE_NOTHROW(gs1::gtin("1234567890.1234567"));	// A good gtin
-	REQUIRE_NOTHROW(gs1::gtin("-12345678901234567"));	// A good gtin
-	REQUIRE_NOTHROW(gs1::gtin("-123456789.1234567"));	// A good gtin
+	REQUIRE_NOTHROW(gs1::gtin("56789012345678"));	// A good gtin
+	REQUIRE_NOTHROW(gs1::gtin("567890.1234567"));	// A good gtin
+	REQUIRE_NOTHROW(gs1::gtin("-5678901234567"));	// A good gtin
+	REQUIRE_NOTHROW(gs1::gtin("-56789.1234567"));	// A good gtin
 
 	REQUIRE_THROWS(gs1::gtin("1121555"));			// Not the right length
-	REQUIRE_THROWS(gs1::gtin("12345678a012345678"));	// An alpha letter when no one allowed.
-	REQUIRE_THROWS(gs1::gtin("12345678 012345678"));	// An alpha letter when no one allowed.
+	REQUIRE_THROWS(gs1::gtin("5678a012345678"));	// An alpha letter when no one allowed.
+	REQUIRE_THROWS(gs1::gtin("5678 012345678"));	// An alpha letter when no one allowed.
 
-	REQUIRE_THROWS(gs1::gtin("12345678a012345678"));	// An alpha letter when no one allowed.
-	REQUIRE_THROWS(gs1::gtin("12345678-012345678"));	// Bad position minus sign.
-	REQUIRE_THROWS(gs1::gtin("12345678.0123.5678"));	// Two decimal separator not allowed.
+	REQUIRE_THROWS(gs1::gtin("5678a012345678"));	// An alpha letter when no one allowed.
+	REQUIRE_THROWS(gs1::gtin("5678-012345678"));	// Bad position minus sign.
+	REQUIRE_THROWS(gs1::gtin("5678.0123.5678"));	// Two decimal separator not allowed.
 
 	REQUIRE(gs1::gtin::isValid("112221") == false);
 }
 
 TEST_CASE("Test of validity with [todo]: composed of three element of fixed length (itemComponent)", "[itemComponent]")
 {
-	REQUIRE_NOTHROW(gs1::itemComponent(1243122, 4, 10));	// Ok
+	REQUIRE_NOTHROW(gs1::itip(1243122, 4, 10));	// Ok
 
-	REQUIRE_THROWS(gs1::itemComponent(1243122, 4, 100));	// 100 is too high.
-	REQUIRE_THROWS(gs1::itemComponent(1243122, -40, 10));	// -40 is too high.
+	REQUIRE_THROWS(gs1::itip(1243122, 4, 100));	// 100 is too high.
+	REQUIRE_THROWS(gs1::itip(1243122, -40, 10));	// -40 is too high.
 }
 
 
-TEST_CASE("Test of validity with variable length data (fabrication lot)", "[fablot]")
+TEST_CASE("Test of validity with variable length data (fabrication lot)", "[batchLot]")
 {
-	REQUIRE(std::string(gs1::fablot::validation) == "an..20");
+	REQUIRE(std::string(gs1::batchLot::validation) == "X..20");
 
-	REQUIRE_NOTHROW(gs1::fablot(""));	// Ok
-	REQUIRE_NOTHROW(gs1::fablot("ab"));	// Ok
+	REQUIRE_NOTHROW(gs1::batchLot(""));	// Ok
+	REQUIRE_NOTHROW(gs1::batchLot("ab"));	// Ok
 
-	REQUIRE_THROWS(gs1::fablot("abqdmjghjgioqmhjmighmigqmsdgmg"));	// Too long.
+	REQUIRE_THROWS(gs1::batchLot("abqdmjghjgioqmhjmighmigqmsdgmg"));	// Too long.
 }
 
 TEST_CASE("Serializing hri", "[hri]")
 {
 	gs1::code c;
-	c.gtin = gs1::gtin { "112155583421309548" };
-	gs1::itemComponent ic = { 1243122, 4, 12 };		// May throw an exception if not valid.
-	c.itemComponent = ic;
-	c.fablot = gs1::fablot { "xuz565" };
+	c.gtin = gs1::gtin { "55583421309548" };
+	gs1::itip ic = { 1243122, 4, 12 };		// May throw an exception if not valid.
+	c.itip = ic;
+	c.batchLot = gs1::batchLot { "xuz565" };
 
 	std::stringstream buff;
 	buff << gs1::hri(c);
 
-	REQUIRE(buff.str() == "(00)112155583421309548(10)xuz565(8006)000000012431220412");
+	REQUIRE(buff.str() == "(01)55583421309548(10)xuz565(8006)000000012431220412");
 }
 
 TEST_CASE("Serializing binary", "[binary]")
 {
 	gs1::code c;
-	c.gtin = gs1::gtin { "112155583421309548" };
-	gs1::itemComponent ic = { 1243122, 4, 12 };		// May throw an exception if not valid.
-	c.itemComponent = ic;
-	c.fablot = gs1::fablot { "xuz565" };
+	c.gtin = gs1::gtin { "55583421309548" };
+	gs1::itip ic = { 1243122, 4, 12 };		// May throw an exception if not valid.
+	c.itip = ic;
+	c.batchLot = gs1::batchLot { "xuz565" };
 
 	std::stringstream buff;
 	buff << gs1::binary(c, ']', '$');
 
-	REQUIRE(buff.str() == "]0011215558342130954810xuz565$8006000000012431220412");
+	REQUIRE(buff.str() == "]015558342130954810xuz565$8006000000012431220412");
 }
 
 TEST_CASE("Parsing hri", "[hri]")
 {
 	gs1::code c;
-	std::string toParse = "(00)112155583421309549(10)xuz565(8006)000000012431220412";
+	std::string toParse = "(01)55583421309549(10)xuz565(8006)000000012431220412";
 	std::istringstream istr(toParse);
 	istr >> gs1::hri(c);
-	REQUIRE(static_cast<std::string>(c.gtin) == "112155583421309549");
-	REQUIRE(static_cast<std::string>(c.fablot) == "xuz565");
-	REQUIRE(static_cast<int64_t>(c.itemComponent.a_) == 1243122);
-	REQUIRE(static_cast<int64_t>(c.itemComponent.b_) == 4);
-	REQUIRE(static_cast<int64_t>(c.itemComponent.c_) == 12);
+	REQUIRE(static_cast<std::string>(c.gtin) == "55583421309549");
+	REQUIRE(static_cast<std::string>(c.batchLot) == "xuz565");
+	REQUIRE(static_cast<int64_t>(c.itip.a_) == 1243122);
+	REQUIRE(static_cast<int64_t>(c.itip.b_) == 4);
+	REQUIRE(static_cast<int64_t>(c.itip.c_) == 12);
 }
 
 TEST_CASE("Parsing binary", "[binary]")
@@ -124,6 +124,8 @@ TEST_CASE("Parsing binary", "[binary]")
 	// std::cin >> gs1::binary(c, ']', '$');
 
 }
+
+// TODO: Manage date and time.
 
 // TODO: Test comparaison, difference, ...
 
