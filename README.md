@@ -55,12 +55,12 @@ void anotherfunction(const gs1::gtin& gtin, const gs1::serial& serialNumber) // 
 Assert conan is installed on you system.
 ```
 # pip install conan # or pip3 install conan
-``̀ 
+```
 
 Create a build subdirectory.
 
 In this subdirectory, launch cmake (for import in eclipse in the example below):
-```
+```bash
 # cmake -G "Eclipse CDT4 - Unix Makefiles" -DCMAKE_BUILD_TYPE=Debug -DCMAKE_ECLIPSE_GENERATE_SOURCE_PROJECT=TRUE -DCMAKE_ECLIPSE_MAKE_ARGUMENTS=-j12 -DCMAKE_ECLIPSE_VERSION=4.17 ..
 # make
 # env CTEST_OUTPUT_ON_FAILURE=1 make test
