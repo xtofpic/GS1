@@ -99,11 +99,12 @@ TEST_CASE("Serializing binary", "[binary]")
 	gs1::itip ic = { 1243122, 4, 12 };		// May throw an exception if not valid.
 	c.itip = ic;
 	c.batchLot = gs1::batchLot { "xuz565" };
+	c.dueDate = gs1::dueDate { "201220" };
 
 	std::stringstream buff;
 	buff << gs1::binary(c, ']', '$');
 
-	REQUIRE(buff.str() == "]015558342130954810xuz565$8006000000012431220412");
+	REQUIRE(buff.str() == "]015558342130954810xuz565$122012208006000000012431220412");
 }
 
 TEST_CASE("Parsing hri", "[hri]")
@@ -121,24 +122,33 @@ TEST_CASE("Parsing hri", "[hri]")
 
 TEST_CASE("Parsing binary", "[binary]")
 {
-	// std::cin >> gs1::binary(c, ']', '$');
+	gs1::code c;
+	std::string toParse = "]015558342130954810xuz565$8006000000012431220412";
+	std::istringstream istr(toParse);
+	istr >> gs1::binary(c, ']', '$');
 
+	REQUIRE(static_cast<std::string>(c.gtin) == "55583421309548");
+	REQUIRE(static_cast<std::string>(c.batchLot) == "xuz565");
+	REQUIRE(static_cast<int64_t>(c.itip.a_) == 1243122);
+	REQUIRE(static_cast<int64_t>(c.itip.b_) == 4);
+	REQUIRE(static_cast<int64_t>(c.itip.c_) == 12);
 }
 
-// TODO: Manage date and time.
+TEST_CASE("Comparison", "[itemComponent]")
+{
+	gs1::code c1;
+	gs1::code c2;
 
-// TODO: Test comparaison, difference, ...
+	REQUIRE(c1 == c2);
 
-// TODO: Add all ai.
+	c1.itip = gs1::itip { 1243122, 4, 12 };
+	REQUIRE(c1 != c2);
 
-// TODO:  Parse a png image
-// istr >> png(c);
-	
-// TODO:  Create an png image
-// ostr << png(c);
+	c2.itip = gs1::itip { 1243122, 4, 12 };
+	REQUIRE(c1 == c2);
 
-// TODO: Parse an svg image:
+	c2.gtin = gs1::gtin { "55583421309548" };
+	REQUIRE(c1 != c2);
+}
 
-// TODO:  Create a svg image:
-// ostr << svg(c);
 

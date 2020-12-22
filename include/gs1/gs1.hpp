@@ -220,6 +220,7 @@ public:
 		data_ = d;
 		defined_ = true;
 	}
+
 	explicit operator data_type() const
 	{
 		return data_;
@@ -246,6 +247,13 @@ public:
 	static bool isValid(const data_type &d)
 	{
 		return dm_check<Ai>(d, false);
+	}
+
+	bool isEqual(const dm_type<Ai>& rhs) const {
+		if (!defined_ && !rhs.defined_) {
+			return true;
+		}
+		return (data_ == rhs.data_);
 	}
 
 	data_type data_;
@@ -288,6 +296,13 @@ public:
 	bool defined() const
 	{
 		return (a_.defined() && b_.defined());
+	}
+
+	bool isEqual(const dm_type_dos<Ai, AiA, AiB>& rhs) const {
+		if (!defined() && !rhs.defined()) {
+			return true;
+		}
+		return ((a_.data_ == rhs.a_.data_) && (b_.data_ == rhs.b_.data_));
 	}
 };
 
@@ -334,6 +349,13 @@ public:
 	bool defined() const
 	{
 		return (a_.defined() && b_.defined() && c_.defined());
+	}
+
+	bool isEqual(const dm_type_tres<Ai, AiA, AiB, AiC>& rhs) const {
+		if (!defined() && !rhs.defined()) {
+			return true;
+		}
+		return ((a_.data_ == rhs.a_.data_) && (b_.data_ == rhs.b_.data_) && (c_.data_ == rhs.c_.data_));
 	}
 };
 
@@ -461,7 +483,7 @@ using nhrnCip = dm_type<AiNhrnCip>;
 using nhrnCn = dm_type<AiNhrnCn>;
 using nhrnDrn = dm_type<AiNhrnDrn>;
 using nhrnAim = dm_type<AiNhrnAim>;
-using nhrnXxx = dm_type<AiNhrnXxx>;
+// using nhrnXxx = dm_type<AiNhrnXxx>;
 using cert = dm_type_dos<AiCert, AiCertA, AiCertB>;
 using protocol = dm_type<AiProtocol>;
 using dimensions = dm_type<AiDimensions>;
@@ -623,7 +645,7 @@ struct code
 	dm_type<AiNhrnCn> nhrnCn;
 	dm_type<AiNhrnDrn> nhrnDrn;
 	dm_type<AiNhrnAim> nhrnAim;
-	dm_type<AiNhrnXxx> nhrnXxx;
+	// dm_type<AiNhrnXxx> nhrnXxx;
 	dm_type_dos<AiCert, AiCertA, AiCertB> cert;
 	dm_type<AiProtocol> protocol;
 	dm_type<AiDimensions> dimensions;
@@ -659,6 +681,182 @@ struct code
 	dm_type<AiCompanyInternal8> companyInternal8;
 	dm_type<AiCompanyInternal9> companyInternal9;
 };
+
+// Equality and difference operator:
+template<class Code>
+bool isEqual(const Code& c1, const Code& c2)
+{
+	if (!c1.sscc.isEqual(c2.sscc)) return false;
+	if (!c1.gtin.isEqual(c2.gtin)) return false;
+	if (!c1.content.isEqual(c2.content)) return false;
+	if (!c1.batchLot.isEqual(c2.batchLot)) return false;
+	if (!c1.prodDate.isEqual(c2.prodDate)) return false;
+	if (!c1.dueDate.isEqual(c2.dueDate)) return false;
+	if (!c1.packDate.isEqual(c2.packDate)) return false;
+	if (!c1.bestBefore.isEqual(c2.bestBefore)) return false;
+	if (!c1.sellBy.isEqual(c2.sellBy)) return false;
+	if (!c1.expiry.isEqual(c2.expiry)) return false;
+	if (!c1.variant.isEqual(c2.variant)) return false;
+	if (!c1.serial.isEqual(c2.serial)) return false;
+	if (!c1.cpv.isEqual(c2.cpv)) return false;
+	if (!c1.tpx.isEqual(c2.tpx)) return false;
+	if (!c1.additionalId.isEqual(c2.additionalId)) return false;
+	if (!c1.custPartNo.isEqual(c2.custPartNo)) return false;
+	if (!c1.mtoVariant.isEqual(c2.mtoVariant)) return false;
+	if (!c1.pcn.isEqual(c2.pcn)) return false;
+	if (!c1.secondarySerial.isEqual(c2.secondarySerial)) return false;
+	if (!c1.refToSource.isEqual(c2.refToSource)) return false;
+	if (!c1.gdti.isEqual(c2.gdti)) return false;
+	if (!c1.glnExtensionComponent.isEqual(c2.glnExtensionComponent)) return false;
+	if (!c1.gcn.isEqual(c2.gcn)) return false;
+	if (!c1.varCount.isEqual(c2.varCount)) return false;
+	if (!c1.netWeightKg.isEqual(c2.netWeightKg)) return false;
+	if (!c1.lengthM.isEqual(c2.lengthM)) return false;
+	if (!c1.widthM.isEqual(c2.widthM)) return false;
+	if (!c1.heightM.isEqual(c2.heightM)) return false;
+	if (!c1.areaM2.isEqual(c2.areaM2)) return false;
+	if (!c1.netVolumeL.isEqual(c2.netVolumeL)) return false;
+	if (!c1.netVolumeM3.isEqual(c2.netVolumeM3)) return false;
+	if (!c1.netWeightLb.isEqual(c2.netWeightLb)) return false;
+	if (!c1.lengthI.isEqual(c2.lengthI)) return false;
+	if (!c1.lengthF.isEqual(c2.lengthF)) return false;
+	if (!c1.lengthY.isEqual(c2.lengthY)) return false;
+	if (!c1.widthI.isEqual(c2.widthI)) return false;
+	if (!c1.widthF.isEqual(c2.widthF)) return false;
+	if (!c1.widthY.isEqual(c2.widthY)) return false;
+	if (!c1.heightI.isEqual(c2.heightI)) return false;
+	if (!c1.heightF.isEqual(c2.heightF)) return false;
+	if (!c1.heightY.isEqual(c2.heightY)) return false;
+	if (!c1.grossWeightKg.isEqual(c2.grossWeightKg)) return false;
+	if (!c1.lengthMLog.isEqual(c2.lengthMLog)) return false;
+	if (!c1.widthMLog.isEqual(c2.widthMLog)) return false;
+	if (!c1.heightMLog.isEqual(c2.heightMLog)) return false;
+	if (!c1.areaM2Log.isEqual(c2.areaM2Log)) return false;
+	if (!c1.volumeL.isEqual(c2.volumeL)) return false;
+	if (!c1.volumeM3.isEqual(c2.volumeM3)) return false;
+	if (!c1.kgPerM2.isEqual(c2.kgPerM2)) return false;
+	if (!c1.grossWeightLb.isEqual(c2.grossWeightLb)) return false;
+	if (!c1.lengthILog.isEqual(c2.lengthILog)) return false;
+	if (!c1.lengthFLog.isEqual(c2.lengthFLog)) return false;
+	if (!c1.lengthYLog.isEqual(c2.lengthYLog)) return false;
+	if (!c1.widthILog.isEqual(c2.widthILog)) return false;
+	if (!c1.widthFLog.isEqual(c2.widthFLog)) return false;
+	if (!c1.widthYLog.isEqual(c2.widthYLog)) return false;
+	if (!c1.heightILog.isEqual(c2.heightILog)) return false;
+	if (!c1.heightFLog.isEqual(c2.heightFLog)) return false;
+	if (!c1.heightYLog.isEqual(c2.heightYLog)) return false;
+	if (!c1.areaI2.isEqual(c2.areaI2)) return false;
+	if (!c1.areaF2.isEqual(c2.areaF2)) return false;
+	if (!c1.areaY2.isEqual(c2.areaY2)) return false;
+	if (!c1.areaI2Log.isEqual(c2.areaI2Log)) return false;
+	if (!c1.areaF2Log.isEqual(c2.areaF2Log)) return false;
+	if (!c1.areaY2Log.isEqual(c2.areaY2Log)) return false;
+	if (!c1.netWeightT.isEqual(c2.netWeightT)) return false;
+	if (!c1.netVolumeOz.isEqual(c2.netVolumeOz)) return false;
+	if (!c1.netVolumeQ.isEqual(c2.netVolumeQ)) return false;
+	if (!c1.netVolumeG.isEqual(c2.netVolumeG)) return false;
+	if (!c1.volumeQ.isEqual(c2.volumeQ)) return false;
+	if (!c1.volumeG.isEqual(c2.volumeG)) return false;
+	if (!c1.volumeI3.isEqual(c2.volumeI3)) return false;
+	if (!c1.volumeF3.isEqual(c2.volumeF3)) return false;
+	if (!c1.volumeY3.isEqual(c2.volumeY3)) return false;
+	if (!c1.volumeI3Log.isEqual(c2.volumeI3Log)) return false;
+	if (!c1.volumeF3Log.isEqual(c2.volumeF3Log)) return false;
+	if (!c1.volumeY3Log.isEqual(c2.volumeY3Log)) return false;
+	if (!c1.count.isEqual(c2.count)) return false;
+	if (!c1.amount.isEqual(c2.amount)) return false;
+	if (!c1.amountIso.isEqual(c2.amountIso)) return false;
+	if (!c1.price.isEqual(c2.price)) return false;
+	if (!c1.priceIso.isEqual(c2.priceIso)) return false;
+	if (!c1.prcntOff.isEqual(c2.prcntOff)) return false;
+	if (!c1.orderNumber.isEqual(c2.orderNumber)) return false;
+	if (!c1.ginc.isEqual(c2.ginc)) return false;
+	if (!c1.gsin.isEqual(c2.gsin)) return false;
+	if (!c1.route.isEqual(c2.route)) return false;
+	if (!c1.shipToLoc.isEqual(c2.shipToLoc)) return false;
+	if (!c1.billTo.isEqual(c2.billTo)) return false;
+	if (!c1.purchaseFrom.isEqual(c2.purchaseFrom)) return false;
+	if (!c1.shipForLoc.isEqual(c2.shipForLoc)) return false;
+	if (!c1.locNo.isEqual(c2.locNo)) return false;
+	if (!c1.payTo.isEqual(c2.payTo)) return false;
+	if (!c1.prodServLoc.isEqual(c2.prodServLoc)) return false;
+	if (!c1.party.isEqual(c2.party)) return false;
+	if (!c1.shipToPost.isEqual(c2.shipToPost)) return false;
+	if (!c1.shipToPostIso.isEqual(c2.shipToPostIso)) return false;
+	if (!c1.origin.isEqual(c2.origin)) return false;
+	if (!c1.countryInitialProcess.isEqual(c2.countryInitialProcess)) return false;
+	if (!c1.countryProcess.isEqual(c2.countryProcess)) return false;
+	if (!c1.countryDisassembly.isEqual(c2.countryDisassembly)) return false;
+	if (!c1.countryFullProcess.isEqual(c2.countryFullProcess)) return false;
+	if (!c1.originSubdivision.isEqual(c2.originSubdivision)) return false;
+	if (!c1.nsn.isEqual(c2.nsn)) return false;
+	if (!c1.meatCut.isEqual(c2.meatCut)) return false;
+	if (!c1.expiryTime.isEqual(c2.expiryTime)) return false;
+	if (!c1.activePotency.isEqual(c2.activePotency)) return false;
+	if (!c1.catchArea.isEqual(c2.catchArea)) return false;
+	if (!c1.firstFreezeDate.isEqual(c2.firstFreezeDate)) return false;
+	if (!c1.harvestDate.isEqual(c2.harvestDate)) return false;
+	if (!c1.aquaticSpecies.isEqual(c2.aquaticSpecies)) return false;
+	if (!c1.fishingGearType.isEqual(c2.fishingGearType)) return false;
+	if (!c1.prodMethod.isEqual(c2.prodMethod)) return false;
+	if (!c1.refurbLot.isEqual(c2.refurbLot)) return false;
+	if (!c1.funcStat.isEqual(c2.funcStat)) return false;
+	if (!c1.revStat.isEqual(c2.revStat)) return false;
+	if (!c1.giaiAssembly.isEqual(c2.giaiAssembly)) return false;
+	if (!c1.processor.isEqual(c2.processor)) return false;
+	if (!c1.uicExt.isEqual(c2.uicExt)) return false;
+	if (!c1.nhrnPzn.isEqual(c2.nhrnPzn)) return false;
+	if (!c1.nhrnCip.isEqual(c2.nhrnCip)) return false;
+	if (!c1.nhrnCn.isEqual(c2.nhrnCn)) return false;
+	if (!c1.nhrnDrn.isEqual(c2.nhrnDrn)) return false;
+	if (!c1.nhrnAim.isEqual(c2.nhrnAim)) return false;
+	// using nhrnXxx = dm_type<AiNhrnXxx>;
+	if (!c1.cert.isEqual(c2.cert)) return false;
+	if (!c1.protocol.isEqual(c2.protocol)) return false;
+	if (!c1.dimensions.isEqual(c2.dimensions)) return false;
+	if (!c1.cmtNo.isEqual(c2.cmtNo)) return false;
+	if (!c1.grai.isEqual(c2.grai)) return false;
+	if (!c1.giai.isEqual(c2.giai)) return false;
+	if (!c1.pricePerUnit.isEqual(c2.pricePerUnit)) return false;
+	if (!c1.itip.isEqual(c2.itip)) return false;
+	if (!c1.iban.isEqual(c2.iban)) return false;
+	if (!c1.prodTime.isEqual(c2.prodTime)) return false;
+	if (!c1.optsen.isEqual(c2.optsen)) return false;
+	if (!c1.cpid.isEqual(c2.cpid)) return false;
+	if (!c1.cpidSerial.isEqual(c2.cpidSerial)) return false;
+	if (!c1.version.isEqual(c2.version)) return false;
+	if (!c1.gmn.isEqual(c2.gmn)) return false;
+	if (!c1.gsrnProvider.isEqual(c2.gsrnProvider)) return false;
+	if (!c1.gsrnRecipient.isEqual(c2.gsrnRecipient)) return false;
+	if (!c1.srin.isEqual(c2.srin)) return false;
+	if (!c1.refNo.isEqual(c2.refNo)) return false;
+	if (!c1.itipContent.isEqual(c2.itipContent)) return false;
+	if (!c1.couponCode.isEqual(c2.couponCode)) return false;
+	if (!c1.points.isEqual(c2.points)) return false;
+	if (!c1.couponOffer.isEqual(c2.couponOffer)) return false;
+	if (!c1.productUrl.isEqual(c2.productUrl)) return false;
+	if (!c1.internal.isEqual(c2.internal)) return false;
+	if (!c1.companyInternal1.isEqual(c2.companyInternal1)) return false;
+	if (!c1.companyInternal2.isEqual(c2.companyInternal2)) return false;
+	if (!c1.companyInternal3.isEqual(c2.companyInternal3)) return false;
+	if (!c1.companyInternal4.isEqual(c2.companyInternal4)) return false;
+	if (!c1.companyInternal5.isEqual(c2.companyInternal5)) return false;
+	if (!c1.companyInternal6.isEqual(c2.companyInternal6)) return false;
+	if (!c1.companyInternal7.isEqual(c2.companyInternal7)) return false;
+	if (!c1.companyInternal8.isEqual(c2.companyInternal8)) return false;
+	if (!c1.companyInternal9.isEqual(c2.companyInternal9)) return false;
+
+	return true;
+}
+
+inline bool operator==(const code& lhs, const code& rhs) {
+	return isEqual(lhs,rhs);
+}
+
+inline bool operator!=(const code& lhs, const code& rhs) {
+	return !isEqual(lhs,rhs);
+}
+
 
 } // namespace gs1
 

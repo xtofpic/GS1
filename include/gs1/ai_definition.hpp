@@ -285,7 +285,7 @@ struct AiRefToSource // (FNC1) REF. TO SOURCE
 
 struct AiGdti // (FNC1) GDTI
 {
-	// static constexpr const char* validation = "N13+X..17";
+	static constexpr const char* validation = "N13+X..17";
 	static constexpr const char* ai = "253";
 	static constexpr const char* description = "Global Document Type Identifier (GDTI)";
 };
@@ -327,7 +327,7 @@ struct AiGlnExtensionComponent // (FNC1) GLN EXTENSION COMPONENT
 struct AiGcn // (FNC1) GCN
 {
 	static constexpr const char* ai = "255";
-	// static constexpr const char* validation = "N13+N..12";
+	static constexpr const char* validation = "N13+N..12";
 	static constexpr const char* description = "Global Coupon Number (GCN)";
 };
 
@@ -1028,7 +1028,7 @@ struct AiAmount // (FNC1) AMOUNT
 struct AiAmountIso // (FNC1) AMOUNT
 {
 	static constexpr const char* ai = "391n";
-	// static constexpr const char* validation = "N3+N..15";
+	static constexpr const char* validation = "N3+N..15";
 	static constexpr const char* description = "(3) Applicable amount payable with ISO currency code";
 };
 
@@ -1069,7 +1069,7 @@ struct AiPrice // (FNC1) PRICE
 struct AiPriceIso // (FNC1) PRICE
 {
 	static constexpr const char* ai = "393n";
-	// static constexpr const char* validation = "N3+N..15";
+	static constexpr const char* validation = "N3+N..15";
 	static constexpr const char* description = "(3) Applicable amount payable with ISO currency code (variable measure trade item)";
 };
 
@@ -1266,7 +1266,7 @@ struct AiShipToPost // (FNC1) SHIP TO POST
 struct AiShipToPostIso // (FNC1) SHIP TO POST
 {
 	static constexpr const char* ai = "421";
-	// static constexpr const char* validation = "N3+X..9";
+	static constexpr const char* validation = "N3+X..9";
 	static constexpr const char* description = "Ship to - Deliver to postal code with ISO country code";
 };
 
@@ -1307,7 +1307,7 @@ struct AiOrigin // (FNC1) ORIGIN
 struct AiCountryInitialProcess // (FNC1) COUNTRY - INITIAL PROCESS.
 {
 	static constexpr const char* ai = "423";
-	// static constexpr const char* validation = "N3+N..12";
+	static constexpr const char* validation = "N3+N..12";
 	static constexpr const char* description = "Country of initial processing";
 };
 
@@ -1348,7 +1348,7 @@ struct AiCountryProcess // (FNC1) COUNTRY - PROCESS.
 struct AiCountryDisassembly // (FNC1) COUNTRY - DISASSEMBLY
 {
 	static constexpr const char* ai = "425";
-	// static constexpr const char* validation = "N3+N..12";
+	static constexpr const char* validation = "N3+N..12";
 	static constexpr const char* description = "Country of disassembly";
 };
 
@@ -1569,7 +1569,7 @@ struct AiGiaiAssembly // (FNC1) GIAI – ASSEMBLY
 struct AiProcessor // (FNC1) PROCESSOR # s
 {
 	static constexpr const char* ai = "703s";
-	// static constexpr const char* validation = "N3+X..27";
+	static constexpr const char* validation = "N3+X..27";
 	static constexpr const char* description = "(8) Number of processor with ISO Country Code";
 };
 
@@ -1598,7 +1598,7 @@ struct AiProcessorB
 struct AiUicExt // (FNC1) UIC+EXT
 {
 	static constexpr const char* ai = "7040";
-	// static constexpr const char* validation = "N1+X3";
+	static constexpr const char* validation = "N1+X3";
 	static constexpr const char* description = "GS1 UIC with Extension 1 and Importer index";
 };
 
@@ -1684,7 +1684,7 @@ struct AiNhrnAim // (FNC1) NHRN AIM
 	}
 };
 
-struct AiNhrnXxx // (FNC1) NHRN xxx
+/* struct AiNhrnXxx // (FNC1) NHRN xxx
 {
 	static constexpr const char* ai = "...";
 	static constexpr const char* validation = "X..20";
@@ -1694,12 +1694,12 @@ struct AiNhrnXxx // (FNC1) NHRN xxx
 	{
 		return src;
 	}
-};
+}; */
 
 struct AiCert // (FNC1) CERT # s
 {
 	static constexpr const char* ai = "723s";
-	// static constexpr const char* validation = "X2+X..28";
+	static constexpr const char* validation = "X2+X..28";
 	static constexpr const char* description = "(6) Certification reference";
 };
 
@@ -1764,7 +1764,7 @@ struct AiCmtNo // (FNC1) CMT No
 struct AiGrai // (FNC1) GRAI
 {
 	static constexpr const char* ai = "8003";
-	// static constexpr const char* validation = "N14+X..16";
+	static constexpr const char* validation = "N14+X..16";
 	static constexpr const char* description = "Global Returnable Asset Identifier (GRAI)";
 };
 
@@ -1817,7 +1817,7 @@ struct AiPricePerUnit // (FNC1) PRICE PER UNIT
 struct AiItip // (FNC1) ITIP
 {
 	static constexpr const char* ai = "8006";
-	// static constexpr const char* validation = "N14+N2+N2";
+	static constexpr const char* validation = "N14+N2+N2";
 	static constexpr const char* description = "Identification of an individual trade item piece";
 };
 
@@ -1869,7 +1869,7 @@ struct AiIban // (FNC1) IBAN
 struct AiProdTime // (FNC1) PROD TIME
 {
 	static constexpr const char* ai = "8008";
-	// static constexpr const char* validation = "N8+N..4";
+	static constexpr const char* validation = "N8+N..4";
 	static constexpr const char* description = "Date and time of production";
 };
 
@@ -2006,7 +2006,7 @@ struct AiRefNo // (FNC1) REF No
 struct AiItipContent // (FNC1) ITIP CONTENT
 {
 	static constexpr const char* ai = "8026";
-	// static constexpr const char* validation = "N14+N2+N2";
+	static constexpr const char* validation = "N14+N2+N2";
 	static constexpr const char* description = "Identification of pieces of a trade item (ITIP) contained in a logistic unit";
 };
 
