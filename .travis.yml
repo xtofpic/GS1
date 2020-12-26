@@ -5,6 +5,9 @@ matrix:
   include:
     - os: linux
       compiler: g++
+      addons:
+        apt:
+          packages: ['lcov']
     - os: linux
       compiler: clang
     - os: osx
@@ -18,14 +21,6 @@ install:
       else
         HOMEBREW_NO_AUTO_UPDATE=1 brew install conan
       fi
-
-addons:
-  apt:
-    sources:
-      - kalakris-cmake
-  packages:
-    - cmake
-    - lcov
 
 before_install:
   - git submodule update --init --recursive
@@ -43,6 +38,8 @@ script:
   - cd Debug
   - make -j 2
   - make test
+  - echo "os name: ${TRAVIS_OS_NAME}"
+  - echo "compiler name: ${COMPILER}"
   - |
     if [[ "${TRAVIS_OS_NAME}" == "linux" ]] && [[ "${COMPILER}" == "g++" ]]; then
       make gcov
