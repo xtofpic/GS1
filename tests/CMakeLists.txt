@@ -10,7 +10,7 @@ set_property(TARGET general PROPERTY CXX_STANDARD 11)
 
 add_test(NAME test1 COMMAND general)
 
-if(GS1_ENABLE_COVERAGE)
+if(ENABLE_COVERAGE)
     find_package(codecov)
     add_coverage(general)
 endif()
