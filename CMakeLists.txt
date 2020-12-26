@@ -77,11 +77,11 @@ write_basic_package_version_file(
 	COMPATIBILITY SameMajorVersion)
 
 
-configure_package_config_file(
-	"${PROJECT_SOURCE_DIR}/CMake/${PROJECT_NAME}Config.cmake.in"
-	"${PROJECT_BINARY_DIR}/${PROJECT_NAME}Config.cmake"
-	INSTALL_DESTINATION
-	${CMAKE_INSTALL_DATAROOTDIR}/${PROJECT_NAME}/cmake)
+# configure_package_config_file(
+# 	"${PROJECT_SOURCE_DIR}/CMake/${PROJECT_NAME}Config.cmake.in"
+# 	"${PROJECT_BINARY_DIR}/${PROJECT_NAME}Config.cmake"
+# 	INSTALL_DESTINATION
+# 	${CMAKE_INSTALL_DATAROOTDIR}/${PROJECT_NAME}/cmake)
 
 
 install(
