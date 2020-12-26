@@ -1,14 +1,17 @@
 
 language: cpp
 
-matrix:
+jobs:
   include:
-    - os: linux
+    - dist: xenial
+      os: linux
       compiler: g++
       addons:
         apt:
           packages: ['lcov']
-    - os: linux
+      env: COVERAGE=1
+    - dist: xenial
+      os: linux
       compiler: clang
     - os: osx
       compiler: clang
@@ -38,10 +41,8 @@ script:
   - cd Debug
   - make -j 2
   - make test
-  - echo "os name: ${TRAVIS_OS_NAME}"
-  - echo "compiler name: ${COMPILER}"
   - |
-    if [[ "${TRAVIS_OS_NAME}" == "linux" ]] && [[ "${COMPILER}" == "g++" ]]; then
+    if [[ "${TRAVIS_OS_NAME}" == "linux" ]] && [[ "${COVERAGE}" == "1" ]]; then
       make gcov
       make lcov
       bash <(curl -s https://codecov.io/bash) -X gcov || echo "Codecov did not collect coverage reports"
