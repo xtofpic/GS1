@@ -35,7 +35,7 @@ before_script:
   - cd Debug
   - conan install ..
   - cd ..
-  - cmake -H. -BDebug -DCMAKE_BUILD_TYPE=Debug -Wdev -DENABLE_COVERAGE=On
+  - cmake -H. -BDebug -DCMAKE_BUILD_TYPE=Debug -Wdev -DGS1_ENABLE_COVERAGE=ON
 
 script:
   - cd Debug
