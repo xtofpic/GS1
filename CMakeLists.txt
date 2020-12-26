@@ -37,9 +37,9 @@ set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/externals/CMake-codecov/cmake" ${CMAK
 
 add_library(${PROJECT_NAME} INTERFACE)
 
-add_subdirectory(tests)
 enable_testing ()
-# add_test (NAME TestAll COMMAND tests/010-TestCase)
+
+add_subdirectory(tests)
 
 target_include_directories(
 	${PROJECT_NAME}
