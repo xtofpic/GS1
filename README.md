@@ -1,3 +1,4 @@
+[![Build Status](https://travis-ci.org/xtofpic/GS1.svg?branch=master)](https://travis-ci.org/xtofpic/GS1)
 
 # GS1
 Manage gs1 code
