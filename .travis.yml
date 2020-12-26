@@ -34,7 +34,7 @@ before_script:
   - mkdir Debug
   - cd Debug
   - conan install ..
-  - cmake .. -DCMAKE_BUILD_TYPE=Debug -Wdev -DGS1_ENABLE_COVERAGE=ON
+  - cmake .. -DCMAKE_BUILD_TYPE=Debug -Wdev -DENABLE_COVERAGE=ON
 
 script:
   - cd ${TRAVIS_BUILD_DIR}/Debug
