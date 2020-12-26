@@ -11,9 +11,8 @@ Instead of passing datamatrix code as a generic string in functions, you may pas
 
 
 
-Why there is no image parser.
-Because the primary use of this library is to provide type to functions signatures.
-My use case is to use a scanner device to retrieve GS1 codes.
+This library do not include a picture parser, because the primary use of this library is to provide type to functions signatures.
+My use case is to use a scanner device to retrieve GS1 codes.  Anyway, a picture parser/generator may be easily included later.
 
 
 ## Usage
