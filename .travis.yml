@@ -1,0 +1,52 @@
+
+language: cpp
+
+matrix:
+  include:
+    - os: linux
+      compiler: g++
+    - os: linux
+      compiler: clang
+    - os: osx
+      compiler: clang
+
+install:
+    - |
+      if [[ "${TRAVIS_OS_NAME}" == "linux" ]]; then
+        pip install --user conan
+        conan user
+      else
+        HOMEBREW_NO_AUTO_UPDATE=1 brew install conan
+      fi
+
+addons:
+  apt:
+    sources:
+      - kalakris-cmake
+  packages:
+    - cmake
+    - lcov
+
+before_install:
+  - git submodule update --init --recursive
+
+before_script:
+  - export CXX=${COMPILER}
+  - cd ${TRAVIS_BUILD_DIR}
+  - mkdir Debug
+  - cd Debug
+  - conan install ..
+  - cd ..
+  - cmake -H. -BDebug -DCMAKE_BUILD_TYPE=Debug -Wdev -DENABLE_COVERAGE=On
+
+script:
+  - cd Debug
+  - make -j 2
+  - make test
+  - |
+    if [[ "${TRAVIS_OS_NAME}" == "linux" ]] && [[ "${COMPILER}" == "g++" ]]; then
+      make gcov
+      make lcov
+      bash <(curl -s https://codecov.io/bash) -X gcov || echo "Codecov did not collect coverage reports"
+    fi
+
