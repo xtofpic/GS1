@@ -1,6 +1,6 @@
 
-# DataMatrix
-Manage datamatrix code
+# GS1
+Manage gs1 code
 
 The idea of this library is to have well defined functions signatures in library.
 Instead of passing datamatrix code as a generic string in functions, you may pass only ai you need, and be sure ai is well formed.
