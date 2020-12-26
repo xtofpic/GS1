@@ -27,7 +27,7 @@ include(CMakePackageConfigHelpers)
 include(CTest)
 
 
-option(GS1_ENABLE_COVERAGE "Generate coverage for codecov.io" OFF)
+option(ENABLE_COVERAGE "Generate coverage for codecov.io" OFF)
 
 
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
@@ -46,7 +46,7 @@ target_include_directories(
 	INTERFACE	$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}_SOURCE_DIR}/include>
 			$<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>)
 
-if(GS1_ENABLE_COVERAGE)
+if(ENABLE_COVERAGE)
     find_package(codecov)
 endif()
 
@@ -100,7 +100,7 @@ install(
 install(DIRECTORY ${PROJECT_SOURCE_DIR}/include DESTINATION include)
 
 
-if(GS1_ENABLE_COVERAGE)
+if(ENABLE_COVERAGE)
     coverage_evaluate()
 endif()
 
